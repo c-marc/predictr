@@ -5,30 +5,41 @@ predUI <- function(id){
     )
 }
 
-predServer <- function(id, xy_ext) {
-    stopifnot(is.reactive(xy_ext))
+predServer <- function(id, FPF, TPF) {
+    stopifnot(is.reactive(FPF))
+    stopifnot(is.reactive(TPF))
     
     moduleServer(id, function(input, output, session) {
-        xy <- reactiveVal(list(x = .5, y = .5))
+        #prior is the producer
+        prior <- reactiveVal(.5)
+        
+        #click x defines prior
         observeEvent(
             input$plot_click,
-            xy(input$plot_click)  
+            {
+                #constraint on value: between 0 and 1 (excluding)
+                x <- input$plot_click$x
+                if(x > 0 & x < 1) prior(x)
+            }
         )
         
         output$plot <- renderPlot({
-            FPF <- xy_ext()$x
-            TPF <- xy_ext()$y
-            p <- getPredValues(FPF, TPF) %>%
-                ggplot(aes(x = prior, y = posterior, group = type)) +
+            #data for the 2 curves: PPV ~ prior and NPV ~ prior
+            allPredValues <- getPredValues(FPF(), TPF())
+
+            p <- ggplot(allPredValues, aes(x = prior, y = posterior, group = type)) +
                 geom_line() +
                 geom_abline(intercept = 0, slope = 1, colour = "grey") +
-                coord_cartesian(xlim = c(0,1), ylim = c(0,1), expand = F) + 
+                #coord_cartesian(xlim = c(0,1), ylim = c(0,1), expand = F) + 
+                coord_cartesian(xlim = c(0,1), ylim = c(0,1)) + 
                 theme_bw()
             
-            prior <- xy()$x
-            selectedPValues <- getPredValues(FPF, TPF, prior = prior)
+            #data for the selected prior()
+            selectedPValues <- getPredValues(FPF(), TPF(), prior = prior())
+            
+            #add layers
             p + 
-                geom_point(x = prior, y = prior) +
+                geom_point(x = prior(), y = prior()) +
                 geom_segment(
                     data = selectedPValues,
                     aes(x = prior, y = prior, xend = prior, yend = posterior),
@@ -36,6 +47,8 @@ predServer <- function(id, xy_ext) {
                 )
         }, res = 96)
 
+        #return prior as a reactive
+        prior
     })
 }
 

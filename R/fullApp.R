@@ -1,3 +1,5 @@
+library(zeallot)
+
 fullApp <- function(...) {
     ui <- fluidPage(
         #titlePanel("Demo"),
@@ -14,23 +16,39 @@ fullApp <- function(...) {
 
     )
     server <- function(input, output, session) {
-        xy <- rocServer("plot1")
-        predServer("plot2", xy)
+        # module 'roc' tracks FPF and TPF
+        # zeallot unstructuring operator
+        c(FPF, TPF) %<-% rocServer("plot1")
+        #xy <- rocServer("plot1")
+        #FPF <- xy$FPF
+        #TPF <- xy$TPF
+
+        # module 'pred' tracks prior
+        prior <- predServer("plot2", FPF, TPF)
+        
+        # recompute OR as reactive
+        OR <- reactive(getOR(FPF(), TPF()))
+        # recompute LRatios as reactive
+        lRatios <- reactive(getLRatios(FPF(), TPF()))
         
         res1 <- reactive(tribble(
             ~Measure, ~Value,
-            "Sensitivity (TPF)", prettyProp(xy()$y),
-            "Specificity (1-FPF)", prettyProp(1-xy()$x),
-            "Positive LR", prettyRatio(getLRatios(xy()$y, xy()$x)$positive),
-            "Negative LR", prettyRatio(getLRatios(xy()$y, xy()$x)$negative)
+            "Sensitivity (TPF)", prettyProp(TPF()),
+            "Specificity (1-FPF)", prettyProp(1-FPF()),
+            "OR (Test <-> Disease)", prettyRatio(OR()),
+            "Positive LR", prettyRatio(lRatios()$positive),
+            "Negative LR", prettyRatio(lRatios()$negative)
         ))
         output$res1 <- renderTable(res1())
         
+        # recompute LRatios as reactive
+        selectedPredValues <- reactive(getPredValues(FPF(), TPF(), prior = prior()))
+        
         res2 <- reactive(tribble(
             ~Measure, ~Value,
-            "Prior", prettyProp(xy()$y),
-            "Positive predictive value", prettyProp(1-xy()$x),
-            "Negative predicitve value", prettyProp(1-xy()$x)
+            "Positive predictive value", prettyProp(selectedPredValues()$posterior[1]),
+            "Prior", prettyProp(prior()),
+            "Negative predicitve value", prettyProp(selectedPredValues()$posterior[2])
         ))
         output$res2 <- renderTable(res2())
     }
