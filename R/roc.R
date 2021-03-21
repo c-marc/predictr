@@ -50,8 +50,8 @@ rocServer <- function(id) {
                 coord_cartesian(xlim = c(0,1), ylim = c(0,1)) + 
                 scale_x_continuous(labels = scales::percent) +
                 scale_y_continuous(labels = scales::percent) +
-                labs(x = "FPF", y = "TPF") +
-                theme_bw()
+                #theme_bw() + #thematic::
+                labs(x = "FPF", y = "TPF")
         }, res = 96)
         
         #return as reactive (and not values xy())

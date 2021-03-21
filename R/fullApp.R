@@ -1,7 +1,8 @@
-library(zeallot)
-
 fullApp <- function(...) {
     ui <- fluidPage(
+        #darkly, flatly, minty, sketchy
+        theme = bslib::bs_theme(bootswatch = "flatly"),
+        
         #titlePanel("Demo"),
         #helpText("Interactive plots : left-click to explore relationships."),
         fluidRow(
@@ -16,6 +17,9 @@ fullApp <- function(...) {
 
     )
     server <- function(input, output, session) {
+        # this is horribly slow feature
+        #thematic::thematic_shiny()
+        
         # module 'roc' tracks FPF and TPF
         # zeallot unstructuring operator
         c(FPF, TPF) %<-% rocServer("plot1")

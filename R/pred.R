@@ -39,8 +39,8 @@ predServer <- function(id, FPF, TPF) {
                 coord_cartesian(xlim = c(0,1), ylim = c(0,1)) + 
                 scale_x_continuous(labels = scales::percent) +
                 scale_y_continuous(labels = scales::percent) +
-                labs(x = "Prior probability", y = "Predictive value") +
-                theme_bw()
+                #theme_bw() + #thematic::
+                labs(x = "Prior probability", y = "Predictive value")
             
             #data for the selected prior()
             selectedPValues <- getPredValues(FPF(), TPF(), prior = prior())
