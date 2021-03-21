@@ -8,8 +8,7 @@ Authors@R:
            email = "mcar176@gmail.com",
            comment = c(ORCID = "YOUR-ORCID-ID"))
 Description: What the package does (one paragraph).
-License: `use_mit_license()`, `use_gpl3_license()` or friends to
-    pick a license
+License: file LICENCE
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
@@ -20,3 +19,12 @@ Suggests:
 VignetteBuilder: knitr
 URL: https://github.com/c-marc/predictr
 BugReports: https://github.com/c-marc/predictr/issues
+Imports: 
+    ggplot2,
+    dplyr,
+    magrittr,
+    zeallot,
+    tidyr,
+    tibble,
+    bslib,
+    scales
