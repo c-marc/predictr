@@ -48,7 +48,9 @@ rocServer <- function(id) {
                 geom_abline(intercept = 0, slope = 1, colour = "grey") +
                 #coord_cartesian(xlim = c(0,1), ylim = c(0,1), expand = F) + 
                 coord_cartesian(xlim = c(0,1), ylim = c(0,1)) + 
-                
+                scale_x_continuous(labels = scales::percent) +
+                scale_y_continuous(labels = scales::percent) +
+                labs(x = "FPF", y = "TPF") +
                 theme_bw()
         }, res = 96)
         

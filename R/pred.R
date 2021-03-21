@@ -19,7 +19,12 @@ predServer <- function(id, FPF, TPF) {
             {
                 #constraint on value: between 0 and 1 (excluding)
                 x <- input$plot_click$x
-                if(x > 0 & x < 1) prior(x)
+                x <- case_when(
+                    x <= 0 ~ 10^-2,
+                    x >= 1 ~ 1-10^-2,
+                    TRUE ~ x
+                )
+                prior(x)
             }
         )
         
@@ -32,6 +37,9 @@ predServer <- function(id, FPF, TPF) {
                 geom_abline(intercept = 0, slope = 1, colour = "grey") +
                 #coord_cartesian(xlim = c(0,1), ylim = c(0,1), expand = F) + 
                 coord_cartesian(xlim = c(0,1), ylim = c(0,1)) + 
+                scale_x_continuous(labels = scales::percent) +
+                scale_y_continuous(labels = scales::percent) +
+                labs(x = "Prior probability", y = "Predictive value") +
                 theme_bw()
             
             #data for the selected prior()
