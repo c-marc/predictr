@@ -1,7 +1,4 @@
-library(tidyverse)
-library(zeallot)
-library(shiny)
-
+pkgload::load_all(".")
 fullApp()
 
 

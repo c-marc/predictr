@@ -20,6 +20,8 @@ VignetteBuilder: knitr
 URL: https://github.com/c-marc/predictr
 BugReports: https://github.com/c-marc/predictr/issues
 Imports: 
+    shiny,
+    pkgload,
     ggplot2,
     dplyr,
     magrittr,

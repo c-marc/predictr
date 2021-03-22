@@ -22,6 +22,8 @@ The goal of predictr is to demonstrate relationships between test performances a
 
 And to demonstrates a Shiny app.
 
+This is **Work In Progress**.
+
 ## Installation
 
 Development version from [GitHub](https://github.com/) with:
@@ -32,9 +34,8 @@ devtools::install_github("c-marc/predictr")
 ```
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
-
 ```{r example}
 library(predictr)
-## basic example code
+## runApp()
 ```
+
