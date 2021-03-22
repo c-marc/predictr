@@ -11,6 +11,8 @@ performances and predictive values.
 
 And to demonstrates a Shiny app.
 
+This is **Work In Progress**.
+
 ## Installation
 
 Development version from [GitHub](https://github.com/) with:
@@ -22,9 +24,7 @@ devtools::install_github("c-marc/predictr")
 
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
-
 ``` r
 library(predictr)
-## basic example code
+## runApp()
 ```

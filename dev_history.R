@@ -14,6 +14,7 @@ usethis::use_build_ignore("dev_history.R")
 ## Create Common Files ----
 ## See ?usethis for more information
 #usethis::use_mit_license( name = "Marc C" )  # You can set another license here
+#usethis::use_proprietary_license()
 #or edit LICENCE & DESCRIPTION
 usethis::use_readme_rmd( open = FALSE )
 devtools::build_readme()
@@ -38,6 +39,8 @@ usethis::use_vignette("draft")
 
 #devtools::install()
 
+usethis::use_build_ignore("app.R")
+
 usethis::use_r("estimate")
 usethis::use_r("roc")
 usethis::use_r("pred")
@@ -58,6 +61,11 @@ usethis::use_package( "dplyr" )
 usethis::use_package( "tidyr" )
 usethis::use_pipe()
 
+#for deployement
+usethis::use_package("shiny")
+usethis::use_package("pkgload")
+
+
 ## Add internal datasets ----
 ## If you have data in your package
 usethis::use_data_raw( name = "my_dataset", open = FALSE ) 
@@ -66,4 +74,3 @@ usethis::use_data_raw( name = "my_dataset", open = FALSE )
 ## Tests ----
 ## Add one line by test you want to create
 usethis::use_test( "app" )
-
